@@ -11,12 +11,11 @@ import java.util.Optional;
 
 @Service
 @Data
-public class StatutEtudiantServiceImpl implements StatutEtudiantService{
+public class StatutEtudiantServiceImpl {
 
     @Autowired
     private StatutEtudiantRepository statutEtudiantRepository;
 
-    @Override
     public String creer(StatutEtudiant statutEtudiant) {
         try {
             StatutEtudiant statutEtudiantExiste = statutEtudiantRepository.getByCode(statutEtudiant.getCode());
@@ -32,17 +31,14 @@ public class StatutEtudiantServiceImpl implements StatutEtudiantService{
         }
     }
 
-    @Override
     public List<StatutEtudiant> lire() {
         return statutEtudiantRepository.findAll();
     }
 
-    @Override
     public Optional<StatutEtudiant> findById(Integer id) {
         return statutEtudiantRepository.findById(id);
     }
 
-    @Override
     public String modifier(Integer id, StatutEtudiant statutEtudiant) {
         try {
             //Rechercher le statut par son id
@@ -64,7 +60,7 @@ public class StatutEtudiantServiceImpl implements StatutEtudiantService{
         }
     }
 
-    @Override
+
     public String supprimer(Integer id) {
         if (statutEtudiantRepository.existsById(id)){
             statutEtudiantRepository.deleteById(id);

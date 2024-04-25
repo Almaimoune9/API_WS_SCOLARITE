@@ -1,24 +1,50 @@
 package com.sitanInfo.API_WS_SCOLARITE.services;
 
 import com.sitanInfo.API_WS_SCOLARITE.model.InscriptionsDossiers;
-import com.sitanInfo.API_WS_SCOLARITE.model.StatutEtudiant;
+import com.sitanInfo.API_WS_SCOLARITE.repository.InscriptionsDossierRepository;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface InscriptionsDossierService {
-    //Methode pour créer une InscriptionsDossier
-    String creer(InscriptionsDossiers inscriptionsDossiers);
+@Service
+@Data
+public class InscriptionsDossierService {
 
-    //La liste des InscriptionsDossier
-    List<InscriptionsDossiers> lire();
+    @Autowired
+    private InscriptionsDossierRepository inscriptionsDossierRepository;
 
-    //Afficher une InscriptionsDossier
-    Optional<InscriptionsDossiers> findById(Integer id);
+    public String creer(InscriptionsDossiers inscriptionsDossiers) {
+        try {
+            InscriptionsDossiers inscriptionDossierExiste = inscriptionsDossierRepository.getByNumero(inscriptionsDossiers.getNumero());
+            if (inscriptionDossierExiste != null){
+                return "Ce dossier existe deja";
+            } else {
+                inscriptionsDossierRepository.save(inscriptionsDossiers);
+                return "Dossier créer";
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return "Une erreur s'est produite lors de la création du dossier";
+        }
+    }
 
-    //Modifier une InscriptionsDossier
-    String modifier(Integer id, InscriptionsDossiers inscriptionsDossiers);
 
-    //Supprimer un InscriptionsDossier
-    String supprimer(Integer id);
+    public List<InscriptionsDossiers> lire() {
+        return null;
+    }
+
+    public Optional<InscriptionsDossiers> findById(Integer id) {
+        return Optional.empty();
+    }
+
+    public String modifier(Integer id, InscriptionsDossiers inscriptionsDossiers) {
+        return null;
+    }
+
+    public String supprimer(Integer id) {
+        return null;
+    }
 }

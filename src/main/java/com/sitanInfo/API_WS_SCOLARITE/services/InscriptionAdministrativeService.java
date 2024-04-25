@@ -1,22 +1,39 @@
 package com.sitanInfo.API_WS_SCOLARITE.services;
 
-import com.sitanInfo.API_WS_SCOLARITE.model.Etudiant;
 import com.sitanInfo.API_WS_SCOLARITE.model.InscriptionAdministrative;
+import com.sitanInfo.API_WS_SCOLARITE.repository.InscriptionAdministrativeRepository;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface InscriptionAdministrativeService {
+@Service
+@Data
+public class InscriptionAdministrativeService{
+    @Autowired
+    private InscriptionAdministrativeRepository inscriptionAdministrativeRepository;
 
-    //Methode pour une inscription
-    String creer(InscriptionAdministrative inscriptionAdministrative);
+    public String creer(InscriptionAdministrative inscriptionAdministrative) {
+        inscriptionAdministrativeRepository.save(inscriptionAdministrative);
+        return "InscriptionAdministrative créer";
+    }
 
-    //La liste des inscriptions
-    List<InscriptionAdministrative> lire();
+    public List<InscriptionAdministrative> lire() {
+        return inscriptionAdministrativeRepository.findAll();
+    }
 
-    //Afficher une inscription
-    Optional<InscriptionAdministrative> findById(Integer id);
+    public Optional<InscriptionAdministrative> findById(Integer id) {
+        return inscriptionAdministrativeRepository.findById(id);
+    }
 
-    //Supprimer une inscription
-    String supprimer(Integer id);
+    public String supprimer(Integer id) {
+        if (inscriptionAdministrativeRepository.existsById(id)){
+            inscriptionAdministrativeRepository.deleteById(id);
+            return "inscriptionAdministrative";
+        }else {
+            return "inscriptionAdministrative non trouvée";
+        }
+    }
 }
